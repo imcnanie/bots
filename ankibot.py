@@ -47,7 +47,16 @@ class parseMessage:
         msgs = [msg for msg in mailbox.fetch(AND(seen=False))]
         decks = []
         for msg in msgs:
-            decks.append(self.parse_deck(msg))
+            if "`anki`" in msg.subject:
+                decks.append(self.parse_deck(msg))
+            if "`youtube`" in msg.subject:
+                import json
+                with open('study_list.json', 'r') as f:
+                    json_data = json.load(f)
+                    json_data[msg.text] = {'date':'6-9-11', 't'=106}
+
+                with open('study_list.json', 'w') as f:
+                    f.write(json.dumps(json_data))
 
         mailbox.logout()
         print(decks)

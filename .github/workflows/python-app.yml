@@ -42,3 +42,5 @@ jobs:
         ls decks
         python ankibot.py ${{ secrets.EMAIL }} ${{ secrets.PASSWORD }}
     - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Added decks

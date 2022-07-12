@@ -53,7 +53,7 @@ class parseMessage:
                 import json
                 with open('study_list.json', 'r') as f:
                     json_data = json.load(f)
-                    json_data[msg.text] = {'date':'6-9-11', 't'=106}
+                    json_data[msg.text] = {'date':'6-9-11', 't':106}
 
                 with open('study_list.json', 'w') as f:
                     f.write(json.dumps(json_data))

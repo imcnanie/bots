@@ -50,10 +50,10 @@ class parseMessage:
             decks.append(self.parse_deck(msg))
 
         mailbox.logout()
-
+        print(decks)
         if len(decks) > 0 and decks[0][2] > 0:
-            print(decks[0])
-            self.send_mail(self.email, decks[0][1].from_, decks[0][1].subject, decks[0][0], [DIR+decks[0][0]], self.email, self.password)
+            for n in range(len(decks)):
+                self.send_mail(self.email, decks[n][1].from_, decks[n][1].subject, decks[n][0], self.email, self.password, files=[DIR+decks[n][0]])
 
     def parse_deck(self,msg):
         split_deck = msg.text.replace('\r','\n').split('\n')
@@ -75,8 +75,7 @@ class parseMessage:
         #return(formatted_deck)
 
 
-    def send_mail(self, send_from, send_to, subject, message, username, password, files=[],
-                  server="smtp.gmail.com", port=587,  use_tls=True):
+    def send_mail(self, send_from, send_to, subject, message, username, password, files=[],server="smtp.gmail.com", port=587,  use_tls=True):
         """Compose and send email with provided info and attachments.
    
         Args:
@@ -93,7 +92,7 @@ class parseMessage:
         """
         msg = MIMEMultipart()
         msg['From'] = send_from
-        msg['To'] = COMMASPACE.join(send_to)
+        msg['To'] = send_to #COMMASPACE.join(send_to)
         msg['Date'] = formatdate(localtime=True)
         msg['Subject'] = subject
    
@@ -101,6 +100,7 @@ class parseMessage:
    
         for path in files:
             part = MIMEBase('application', "octet-stream")
+            print(path)
             with open(path, 'rb') as file:
                 part.set_payload(file.read())
             encoders.encode_base64(part)

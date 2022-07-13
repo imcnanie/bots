@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         ref: ${{ github.head_ref }}
         token: ${{ secrets.PAT }}
@@ -39,8 +39,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run Ankibot
       run: |
-        ls
-        ls decks
+        git pull
         python ankibot.py ${{ secrets.EMAIL }} ${{ secrets.PASSWORD }}
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
